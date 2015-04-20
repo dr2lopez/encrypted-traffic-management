@@ -108,7 +108,7 @@ Application Layer Protocol Negotiation (ALPN) {#alpn}
 DiffServ Code Points (DSCP) {#dscp}
 ---------------------------
 
-Explicit Congestion Notification {#dscp}
+Explicit Congestion Notification {#ecs}
 --------------------------------
  
 Multi Protocol Label Switching {#mpls}
