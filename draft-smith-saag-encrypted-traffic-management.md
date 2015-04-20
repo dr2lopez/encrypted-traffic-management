@@ -22,6 +22,7 @@ author:
 
 normative:
   RFC7258:
+  RFC2818:
 
 informative:
   mm-effect-encrypt: 
@@ -64,41 +65,78 @@ awareness, uptake by major players and advocacy from the {{IAB}},  {{RFC7258}} a
 {{IAB}}, {{RFC7258}} and {{mm-effect-encrypt}} recognise that network management functions are impacted by encryption, and that solutions are needed to persist them - as long as they do not threaten privacy. Such solutions would ensure the benefits of encryption do not degrade network efficiency. 
 
 
-Document conventions   {#conv}
+Document structure   {#struc}
 ----------------------------
-This document
-describes the technical details of existing options to persist network management functions
-for encrypted traffic. These options are categorised into two main sections: first, where encryption is used 
-between the content server and client, and second, where browser proxies tunnel 'http' URIs over TLS. 
+This document describes the network management functions that are likely to be hindered by traffic encryption.
 
-Finally a summary is provided of ongoing IETF work which is investigating how middleboxes along the path can improve encrypted traffic delivery. 
+It then describes the technical details of existing options to fully or partially persist these functions
+under encryption. 'Encryption' in this document typically refers to HTTP over TLS {{RFC2818}}; other forms of encryption are noted where applicable.
 
-‘Mitigation’ is used throughout this document, and refers to a method of fully or partially supporting a
-particular network management function when traffic is encrypted. This term is not meant to imply a removal or workaround of encryption.
+Finally a summary is provided of ongoing IETF work which is investigating how middleboxes along the network path can improve encrypted traffic delivery.
+
+The legal, political and commercial aspects of network management are not covered in this technical document.
 
 
-Existing mitigations  {#exmit}
-====================
+Network management functions {#netman}
+============================
+Queuing {#qu}
+-------
+Routing {#rou}
+-------
+Intrusion detection {#id}
+-------------------
+Policy enforcement {#pe}
+------------------
 
-Mitigation 1
-----------
+SPAM and malware filtering {#spam}
+--------------------------
 
-Mitigation 2
-----------
+Encryption protocols and their effect {#encryp}
+=====================================
 
-Discommended mitigations {#disc}
-========================
 
-Prototype mitigations {#proto}
-=====================
 
-Acknowledgements
+Flow information  {#flow}
 ================
 
-IANA Considerations
+TLS Server Name Indication {#sni}
+--------------------------
+
+Application Layer Protocol Negotiation (ALPN) {#alpn}
+---------------------------------------------
+
+DiffServ Code Points (DSCP) {#dscp}
+---------------------------
+
+Explicit Congestion Notification {#dscp}
+--------------------------------
+ 
+Multi Protocol Label Switching {#mpls}
+------------------------------
+
+IP 5-tuple {#ip5}
+----------
+
+Internet Control Message Protocol
+---------------------------------
+
+Inferred flow information {#inflow}
+=========================
+
+Heuristics {#heur}
+----------
+
+
+Notable research work items {#research}
+===========================
+
+Acknowledgements {#ack}
+================
+
+IANA Considerations {#iana}
 ===================
 
-Security Considerations
+Security Considerations {#sec}
 =======================
 
 
