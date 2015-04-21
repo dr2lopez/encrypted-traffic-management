@@ -79,14 +79,19 @@ The legal, political and commercial aspects of network management are not covere
 
 Network management functions {#netman}
 ============================
+
 Queuing {#qu}
 ------------
+
 Routing {#rou}
 -------------
+
 Intrusion detection {#id}
 ------------------------
+
 Policy enforcement {#pe}
 -----------------------
+
 
 SPAM and malware filtering {#spam}
 ---------------------------------
@@ -95,40 +100,49 @@ Encryption protocols and their effect {#encryp}
 ==============================================
 
 
-
 Flow information  {#flow}
 ========================
+
 
 TLS Server Name Indication {#sni}
 --------------------------------
 
+
 Application Layer Protocol Negotiation (ALPN) {#alpn}
 ----------------------------------------------------
+
 
 DiffServ Code Points (DSCP) {#dscp}
 ----------------------------------
 
+
 Explicit Congestion Notification {#ecs}
 --------------------------------------
+
  
 Multi Protocol Label Switching {#mpls}
 -------------------------------------
 
+
 IP 5-tuple {#ip5}
 ----------------
+
 
 Internet Control Message Protocol
 ---------------------------------
 
+
 Inferred flow information {#inflow}
 ===================================
+
 
 Heuristics {#heur}
 -----------------
 
 
-Notable research work items {#research}
-=======================================
+Experimental protocols {#exp}
+=============================
+
 
 Acknowledgements {#ack}
 ======================
