@@ -7,7 +7,7 @@ category: info
 
 ipr: trust200902
 area: Security
-workgroup:
+workgroup: 
 keyword: Internet-Draft
 
 stand_alone: yes
@@ -60,7 +60,7 @@ Introduction        {#intro}
 Networks utilise various management techniques to ensure efficient throughput, congestion management, anti-SPAM and security measures. Historically these functions have utilised visibility of the Internet application layer.
 
 This visibility is rapidly diminishing - encrypted Internet traffic is expected to continue its upward trend, driven by increased privacy
-awareness, uptake by major players and advocacy from the {{IAB}},  {{RFC7258}} and W3C {{TAG}}. 
+awareness, uptake by major players and advocacy from the {{IAB}},  {{RFC7258}} and W3C {{TAG}} . 
 
 {{IAB}}, {{RFC7258}} and {{mm-effect-encrypt}} recognise that network management functions are impacted by encryption, and that solutions are needed to persist them - as long as they do not threaten privacy. Such solutions would ensure the benefits of encryption do not degrade network efficiency. 
 
