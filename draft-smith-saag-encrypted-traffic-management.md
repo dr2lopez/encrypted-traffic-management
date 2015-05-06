@@ -2,7 +2,7 @@
 title: Network management of encrypted traffic
 abbrev: encrypted-traffic-management
 docname: draft-smith-saag-encrypted-traffic-management-latest
-date: 2015-04-17
+date: 2015-05-08
 category: info
 
 ipr: trust200902
@@ -23,16 +23,10 @@ author:
 normative:
   RFC7258:
   RFC2818:
+  RFC5246:
+  RFC4301:
 
 informative:
-  mm-effect-encrypt: 
-    target: https://datatracker.ietf.org/doc/draft-mm-wg-effect-encrypt/ 
-    title: Effect of Ubiquitous Encryption
-    author: 
-      name: K. Moriarty, A. Morton 
-      org: IETF 
-      date: 2014-11-14
-  
   IAB: 
     target: https://www.iab.org/2014/11/14/iab-statement-on-internet-confidentiality/ 
     title: IAB statement on Internet confidentiality 
@@ -41,6 +35,34 @@ informative:
       org: IAB 
       date: 2014-11-14
   
+  mm-effect-encrypt: 
+    target: https://datatracker.ietf.org/doc/draft-mm-wg-effect-encrypt/ 
+    title: Effect of Ubiquitous Encryption
+    author: 
+      name: K. Moriarty, A. Morton 
+      org: IETF 
+      date: 2014-11-14
+  
+  MTG: 
+    target: https://tools.ietf.org/html/draft-flinck-mobile-throughput-guidance-02 
+    title: Mobile Throughput Guidance Inband Signaling Protocol
+    author: 
+      name: H. Flinck et al. 
+      org: IETF 
+      date: 2015-03-09
+      
+  SEMI: 
+    target: https://www.iab.org/activities/workshops/semi/
+    title: IAB workshop, 'Stack Evolution in a Middlebox Internet', January 2015
+      
+  SPUD: 
+    target: https://tools.ietf.org/html/draft-hildebrand-spud-prototype-03 
+    title: Substrate Protocol for User Datagrams
+    author: 
+      name: J. Hildebrand, B. Trammell 
+      org: IETF 
+      date: 2015-03-09        
+
   TAG: 
     target: https://w3ctag.github.io/web-https/ 
     title: Securing the Web 
@@ -48,6 +70,13 @@ informative:
       name: W3C TAG 
       org: W3C	 
       date: 2015-01-15
+    
+  TCPINC: 
+    target: https://datatracker.ietf.org/wg/tcpinc/charter/ 
+    title: TCP Increased Security 
+    author: 
+      name: tcpinc WG 
+      org: IETF	 
   
 --- abstract
 
@@ -67,51 +96,68 @@ awareness, uptake by major players and advocacy from the {{IAB}},  {{RFC7258}} a
 
 Document structure   {#struc}
 ----------------------------
-This document describes the network management functions that are likely to be hindered by traffic encryption.
+This document describes the network management functions that are likely to be hindered by traffic encryption. 
 
 It then describes the technical details of existing options to fully or partially persist these functions
 under encryption. 'Encryption' in this document typically refers to HTTP over TLS {{RFC2818}}; other forms of encryption are noted where applicable.
 
-Finally a summary is provided of ongoing IETF work which is investigating how middleboxes along the network path can improve encrypted traffic delivery.
+Finally, a summary is provided of ongoing IETF work which is investigating how middleboxes along the network path can improve encrypted traffic delivery - again without breaching user privacy or security.
 
-The legal, political and commercial aspects of network management are not covered in this technical document.
+The legal, political and commercial aspects of network management are recgnised but not covered in this technical document. 
+
+Security protocols {#encryp}
+----------------------------
+
+The following IETF protocols are considered in this document: TLS {{RFC5246}} , IPsec {{RFC4301}} and the ongoing transport layer security work of {{TCPINC}}.
 
 
 Network management functions {#netman}
-============================
+======================================
+
+{:editor: source="editor"}
+
+[^1]: Part or all of this section may be removed where there is duplication with {{mm-effect-encrypt}} 
+{:editor}
+
 
 Queuing {#qu}
 ------------
 
-Traffic flowing through a network may be queued according to the latency and bandwidth required to deliver it. 
-This is important at an access network, especially so if the network conditions can change rapidly. 
-
-TO BE COMPLETED
-
-
-Routing {#rou}
---------------
-
+Traffic flowing through a network may be queued for delivery. This is important at an access network where network conditions can change rapidly - such as a cellular radio access network. To account for congestion, the network will categorise content requests  according to the latency and bandwidth required to deliver that content type. These combinations run from high-latency, low bandwidth (Email), medium latency, medium bandwidth (Web pages), low latency high bandwidth (video streaming), and many others including voice calls, texts, WebRTC and VoIP. A well-managed network will triage between these content types and deliver from each queue in bursts, to ensure no user experiences a disrupted service.
 
 
 Intrusion detection {#id}
 ------------------------
+Networks will monitor traffic stream behaviours to identify likely Denial of Service attacks. Tools exist at each network layer to detect and mitigate these, including application layer detection.
+
 
 Policy enforcement {#pe}
 -----------------------
+Access and authentication policies to govern entry to the network are not affected by encryption in the IP suite. 
 
+Cellular networks often sell tariffs that allow free-data access to certain sites, known as 'zero rating'. A session to visit such a site incurs no additional cost or data usage to the user. Such 'zero rating
+
+Note: this section deliberately does not go into detail on the ramifications of encryption as regards government regulation. These regulations include 'Lawful Intercept', adherence to Codes of Practice on content filtering, application of court order filters. However it is clear that these functions are impacted by encryption, typically by allowing a less granular means of implementation. The enforcement of any Net Neutrality regulations is unlikely to be affected by content being encrypted.
 
 SPAM and malware filtering {#spam}
 ---------------------------------
-
-Encryption protocols and their effect {#encryp}
-==============================================
+This has typically required Deep Packet Inspection to filter various keywords, fraudulent headers and virus attachments.
 
 
+Flow information visible to a network {#flow}
+=============================================
 
+IP 5-tuple {#ip5}
+----------------
 
-Flow information  {#flow}
-========================
+This indicates source and destination IP addresses/ports and the transport protocol. This information 
+is available during TLS, TCP-layer encryption (except ports), and IP-layer encryption (IPSec); although it may be
+obscured in Tunnel mode IPSec. 
+
+This allows network management at a coarse IP-source level, which makes it of limited value where the
+origin server supports a blend of service types. 
+
+Obscured from network by: IPSec Tunnel Mode 
 
 
 TLS Server Name Indication {#sni}
@@ -139,15 +185,18 @@ a range of email, video, Web pages etc. For example, certain Facebook or Twitter
 be deemed ‘adult content’, but the Server Name Indication will only indicate the server
 domain (facebook.com, twitter.com) rather than a URL path to be blocked
 
+Obscured from network by: not providing the SNI, IPSec
+
 
 Application Layer Protocol Negotiation (ALPN) {#alpn}
 ----------------------------------------------------
 
 ALPN is a TLS extenion which may be used to indicate the application protocol within the TLS 
-session. THis is likely to be of more value to the network where it indicates a protocol dedicated 
+session. This is likely to be of more value to the network where it indicates a protocol dedicated 
 to a particular traffic type (such as video streaming) rather than a multi-use protocol.
 ALPN is used as part of HTTP/2 'h2', but will not indicate the traffic types which may make up
 streams within an HTTP/2 multiplex.
+
 
 DiffServ Code Points (DSCP) {#dscp}
 ----------------------------------
@@ -184,8 +233,7 @@ service provider will utilise the ECN to reduce throughput until it is notified 
 has eased.
 
 Limitation: As with DiffServ, operators may not trust an external entity to mark packets in a
-fair/consistent manner. Relative cost to implement: high (without existing ECN infrastructure), 
-medium (with existing ECN infrastructure). Also requires content provider support0.
+fair/consistent manner. 
 
  
 Multi Protocol Label Switching {#mpls}
@@ -237,39 +285,37 @@ The accuracy of heuristics depends on whether the observed traffic originates fr
 delivering a single service, or a blend of services.
 
 
-IP 5-tuple {#ip5}
-----------------
 
-This indicates source and destination IP addresses/ports and the transport protocol. This information 
-is available during TLS, TCP-layer encryption (except ports), and IP-layer encryption (IPSec); although it may be
-obscured in Tunnel mode IPSec. 
+Providing hints to and from the network {#hint}
+==============================================
+The following draft protocols aim to support a secure and privacy-aware dialogue between client, server and a network middlebox. This follows the cooperative path to endpoint signalling as discussed at the IAB SEMI workshop {{SEMI}}, with the network following a more clearly-defined role in encrypted traffic delivery. These hints can allow information item exchange between the endpoints and the network, to assist queuing mechanisms and traffic pacing that accounts for network congestion and variable connection strength.
 
-This allows network management at a coarse IP-source level, which makes it of limited value where the
-origin server supports a blend of service types. 
-
-
-Experimental protocols {#exp}
-=============================
 
 Substrate Protocol for User Datagrams (SPUD) {#spud}
 ----------------------------------------------------
 
-Ref to SPUD here
+SPUD {{SPUD}} allows network devices on the path between endpoints to participate explicitly in a 'tube' of grouped UDP packets. The network involvement is outside of the end-to-end context, to minimise any privacy or security breach. The initial prototype is based on UDP packets but will investigate the support of additional transport layers (such as TCP).
 
 Mobile throughput Guidance {#mtg}
 ---------------------------------
 
-Ref to MTG here
+Mobile Throughput Guidance In-band Signalling {{MTG}} allows the network to inform the server endpoint as to what bandwidth the TCP connection can reasonably expect. This allows the server to adapt their throughput pacing based on dynamic network conditions, which can assist mechanisms such as Adaptive Bitrate Streaming and TCP congestion control.
 
 
 Acknowledgements {#ack}
 ======================
 
+The editor would like to thank the GSMA Web Working Group for their contributions, in particular to the technical solutions and network management functions.
+
 IANA Considerations {#iana}
 ==========================
 
+There are no IANA consideraions.
+
 Security Considerations {#sec}
 =============================
+
+The intention of this document is to consider how to persist network management of encrypted traffic, without breaching user privacy or end-to-end security. In particular this document does not recommend any approach that intercepts or modifies client-server Transport Layer Security.
 
 
 
