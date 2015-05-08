@@ -48,7 +48,9 @@
 <t>This visibility is rapidly diminishing - encrypted Internet traffic is expected to continue its upward trend, driven by increased privacy
 awareness, uptake by major players and advocacy from the <xref target="IAB"/>,  <xref target="RFC7258"/> and W3C <xref target="TAG"/> .</t>
 
-<t><xref target="IAB"/>, <xref target="RFC7258"/> and <xref target="mm-effect-encrypt"/> recognise that network management functions are impacted by encryption, and that solutions are needed to persist them - as long as they do not threaten privacy. Such solutions would ensure the benefits of encryption do not degrade network efficiency.</t>
+<t><xref target="IAB"/>, <xref target="RFC7258"/> and <xref target="mm-effect-encrypt"/> recognise that network management functions are impacted by encryption, and that solutions are needed to persist them - as long as they do not threaten privacy. These solutions would ensure the benefits of encryption do not degrade network efficiency.</t>
+
+<t>This document lists such solutions, and points to evolving IETF work addressing the problem.</t>
 
 <section anchor="struc" title="Document structure">
 <t>This document describes the network management functions that are likely to be hindered by traffic encryption.</t>

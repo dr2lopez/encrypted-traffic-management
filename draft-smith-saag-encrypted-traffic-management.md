@@ -33,7 +33,7 @@ informative:
     author: 
       name: Internet Architecture Board 
       org: IAB 
-      date: 2014-11-14
+      date: 2014-11
   
   mm-effect-encrypt: 
     target: https://datatracker.ietf.org/doc/draft-mm-wg-effect-encrypt/ 
@@ -41,7 +41,7 @@ informative:
     author: 
       name: K. Moriarty, A. Morton 
       org: IETF 
-      date: 2014-11-14
+      date: 2015-09
   
   MTG: 
     target: https://tools.ietf.org/html/draft-flinck-mobile-throughput-guidance-02 
@@ -49,11 +49,14 @@ informative:
     author: 
       name: H. Flinck et al. 
       org: IETF 
-      date: 2015-03-09
+      date: 2015-03
       
   SEMI: 
     target: https://www.iab.org/activities/workshops/semi/
-    title: IAB workshop, 'Stack Evolution in a Middlebox Internet', January 2015
+    title: IAB workshop, 'Stack Evolution in a Middlebox Internet'
+    author: 
+      org: IAB
+      date: 2015-01
       
   SPUD: 
     target: https://tools.ietf.org/html/draft-hildebrand-spud-prototype-03 
@@ -61,7 +64,7 @@ informative:
     author: 
       name: J. Hildebrand, B. Trammell 
       org: IETF 
-      date: 2015-03-09        
+      date: 2015-03       
 
   TAG: 
     target: https://w3ctag.github.io/web-https/ 
@@ -69,14 +72,15 @@ informative:
     author: 
       name: W3C TAG 
       org: W3C	 
-      date: 2015-01-15
+      date: 2015-01
     
   TCPINC: 
     target: https://datatracker.ietf.org/wg/tcpinc/charter/ 
     title: TCP Increased Security 
     author: 
       name: tcpinc WG 
-      org: IETF	 
+      org: IETF
+      date: 2014	 
   
 --- abstract
 
@@ -91,7 +95,9 @@ Networks utilise various management techniques to ensure efficient throughput, c
 This visibility is rapidly diminishing - encrypted Internet traffic is expected to continue its upward trend, driven by increased privacy
 awareness, uptake by major players and advocacy from the {{IAB}},  {{RFC7258}} and W3C {{TAG}} . 
 
-{{IAB}}, {{RFC7258}} and {{mm-effect-encrypt}} recognise that network management functions are impacted by encryption, and that solutions are needed to persist them - as long as they do not threaten privacy. Such solutions would ensure the benefits of encryption do not degrade network efficiency. 
+{{IAB}}, {{RFC7258}} and {{mm-effect-encrypt}} recognise that network management functions are impacted by encryption, and that solutions are needed to persist them - as long as they do not threaten privacy. These solutions would ensure the benefits of encryption do not degrade network efficiency. 
+
+This document lists such solutions, and points to evolving IETF work addressing the problem.
 
 
 Document structure   {#struc}
@@ -114,10 +120,8 @@ The following IETF protocols are considered in this document: TLS {{RFC5246}} , 
 Network management functions {#netman}
 ======================================
 
-{:editor: source="editor"}
+Editor's note: Part or all of this section may be removed where there is duplication with any updated version of {{mm-effect-encrypt}} 
 
-[^1]: Part or all of this section may be removed where there is duplication with {{mm-effect-encrypt}} 
-{:editor}
 
 
 Queuing {#qu}
