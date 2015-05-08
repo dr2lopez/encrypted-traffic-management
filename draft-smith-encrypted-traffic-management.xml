@@ -9,7 +9,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc symrefs="yes"?>
 
-<rfc ipr="trust200902" docName="draft-smith-saag-encrypted-traffic-management-latest" category="info">
+<rfc ipr="trust200902" docName="draft-smith-encrypted-traffic-management-00" category="info">
 
   <front>
     <title abbrev="encrypted-traffic-management">Network management of encrypted traffic</title>
@@ -17,7 +17,7 @@
     <author initials="K." surname="Smith" fullname="Kevin Smith">
       <organization>Vodafone Group</organization>
       <address>
-        <email>kevin.smith[ at ]vodafone.com</email>
+        <email>kevin.smith@vodafone.com</email>
       </address>
     </author>
 
@@ -46,7 +46,7 @@
 <t>Networks utilise various management techniques to ensure efficient throughput, congestion management, anti-SPAM and security measures. Historically these functions have utilised visibility of the Internet application layer.</t>
 
 <t>This visibility is rapidly diminishing - encrypted Internet traffic is expected to continue its upward trend, driven by increased privacy
-awareness, uptake by major players and advocacy from the <xref target="IAB"/>,  <xref target="RFC7258"/> and W3C <xref target="TAG"/> .</t>
+awareness, uptake by popular services, and advocacy from the <xref target="IAB"/>,  <xref target="RFC7258"/> and W3C <xref target="TAG"/> .</t>
 
 <t><xref target="IAB"/>, <xref target="RFC7258"/> and <xref target="mm-effect-encrypt"/> recognise that network management functions are impacted by encryption, and that solutions are needed to persist them - as long as they do not threaten privacy. These solutions would ensure the benefits of encryption do not degrade network efficiency.</t>
 
@@ -83,7 +83,7 @@ under encryption. ‘Encryption’ in this document typically refers to HTTP ove
 
 </section>
 <section anchor="pe" title="Policy enforcement">
-<t>Access and authentication policies to govern entry to the network are not affected by encryption in the IP suite.</t>
+<t>Approved access to a network is a prerequisite to requests for Internet traffic - hence network access, including any authentication and authorisation, is not impacted by traffic encryption.</t>
 
 <t>Cellular networks often sell tariffs that allow free-data access to certain sites, known as ‘zero rating’. A session to visit such a site incurs no additional cost or data usage to the user. Such ‘zero rating</t>
 
@@ -124,14 +124,14 @@ unencrypted, the destination alternate service name can be identified before the
 communication is potentially upgraded to encrypted HTTP/2 transport.
 HTTP/2 implementations MUST support the Server Name Indication (SNI) extension.</t>
 
-<t>Limitiation: This solution only works if the browser is populating the Server Name
+<t>Limitation: This information is only visible if the client is populating the Server Name
 Indication extension. This need not be done, but may be done as per TLS standard.
 Therefore, even if existing network filters look out for seeing a Server Name Indication
 extension, they may not find one. The per-domain nature of SNI may not reveal the specific
 service or media type being accessed, especially where the domain is of a provider offering
-a range of email, video, Web pages etc. For example, certain Facebook or Twitter feeds may
+a range of email, video, Web pages etc. For example, certain blog or social network feeds may
 be deemed ‘adult content’, but the Server Name Indication will only indicate the server
-domain (facebook.com, twitter.com) rather than a URL path to be blocked</t>
+domain rather than a URL path to be blocked.</t>
 
 <t>Obscured from network by: not providing the SNI, IPSec</t>
 
@@ -187,15 +187,10 @@ fair/consistent manner.</t>
 ’Forward Equivalence Class’ (FEC). This allows the network to make packet-forwarding
 decisions according to their latency requirements. MPLS routers within the network parse
 and act upon the FEC value. The FEC is set according to the source IP address and port.
-The purpose is to help managing traffic and congestion in the network.</t>
+The purpose is to help managing traffic and congestion in the network. This requires deployment of an MPLS ‘backbone’ with label-aware switches/ routers.</t>
 
-<t>Requires deployment of an MPLS ‘backbone’ with label-aware switches/ routers. Complexity
-will depend upon the existing network topology.</t>
-
-<t>Limitations: some entity has to maintain an up-to-date correspondence table between a
-website to block (parental controls and regulatory filtering use cases) and the IP address of a
-server. Then, this category of traffic has to be consistently mapped to a certain known set of
-MPLS labels which entails a great cost of setting it up and a recurring cost of maintaining it</t>
+<t>Limitations: an up-to-date correspondence table between Websites and server IP address must be created. Then, the category(s) of traffic have to be consistently mapped to a set of 
+MPLS labels ,which entails a significant effort to setup and maintain.</t>
 
 <t>Note: MPLS can specify how OSI Layer 3 (IP layer) traffic can be routed over Layer 2 (Data Link);
 DiffServ only operates over Layer 3. DiffServ is potentially a less complex integration as it is
@@ -207,9 +202,11 @@ applied at the network edge servers only.</t>
 
 <section anchor="heur" title="Heuristics">
 
-<t>All IP packets are associated with meta data that can be utilized for identification and
-classification of traffic. The data available are: Source IP-address, destination IP-address,
-protocol (TCP, UDP), source port and destination port (collectively known as 5-tuple). In
+<t>Heuristics can be used to map given input data to particular conclusions via some heuristic
+reasoning. Examples of input data to this reasoning include IP destination address, TCP destination port, 
+server name from SNI, typical traffic pattern (e.g. occurrence of IP packets and TCP segments over time).
+The accuracy of heuristics depends on whether the observed traffic originates from a source 
+delivering a single service, or a blend of services. In
 many scenarios, this makes it possible to directly classify the traffic related to a specific
 server/service even when the traffic is fully encrypted.</t>
 
@@ -219,12 +216,6 @@ traffic classifiers today typically apply heuristic methods, using traffic patte
 algorithms to be able to identify the traffic. As an example, classifier products are able to 
 identify popular VoIP services using heuristic methods although the traffic is encrypted and
 mostly peer-to-peer.</t>
-
-<t>Heuristics can be used to map given input data to particular conclusions via some heuristic
-reasoning. Examples of this input data include IP destination address, TCP destination port, 
-server name from SNI, typical traffic pattern (e.g. occurrence of IP packets and TCP segments over time).
-The accuracy of heuristics depends on whether the observed traffic originates from a source 
-delivering a single service, or a blend of services.</t>
 
 </section>
 </section>
@@ -351,7 +342,7 @@ delivering a single service, or a blend of services.</t>
     <author fullname="Internet Architecture Board">
       <organization>IAB</organization>
     </author>
-    <date year="2014" month="November"/>
+    <date year="n.d."/>
   </front>
 </reference>
 <reference anchor="mm-effect-encrypt" target="https://datatracker.ietf.org/doc/draft-mm-wg-effect-encrypt/">
@@ -360,7 +351,7 @@ delivering a single service, or a blend of services.</t>
     <author fullname="K. Moriarty, A. Morton">
       <organization>IETF</organization>
     </author>
-    <date year="2015" month="March"/>
+    <date year="n.d."/>
   </front>
 </reference>
 <reference anchor="MTG" target="https://tools.ietf.org/html/draft-flinck-mobile-throughput-guidance-02">
@@ -369,7 +360,7 @@ delivering a single service, or a blend of services.</t>
     <author fullname="H. Flinck et al.">
       <organization>IETF</organization>
     </author>
-    <date year="2015" month="March"/>
+    <date year="n.d."/>
   </front>
 </reference>
 <reference anchor="SEMI" target="https://www.iab.org/activities/workshops/semi/">
@@ -378,7 +369,7 @@ delivering a single service, or a blend of services.</t>
     <author >
       <organization>IAB</organization>
     </author>
-    <date year="2015" month="January"/>
+    <date year="n.d."/>
   </front>
 </reference>
 <reference anchor="SPUD" target="https://tools.ietf.org/html/draft-hildebrand-spud-prototype-03">
@@ -387,7 +378,7 @@ delivering a single service, or a blend of services.</t>
     <author fullname="J. Hildebrand, B. Trammell">
       <organization>IETF</organization>
     </author>
-    <date year="2015" month="March"/>
+    <date year="n.d."/>
   </front>
 </reference>
 <reference anchor="TAG" target="https://w3ctag.github.io/web-https/">
@@ -396,7 +387,7 @@ delivering a single service, or a blend of services.</t>
     <author fullname="W3C TAG">
       <organization>W3C</organization>
     </author>
-    <date year="2015" month="January"/>
+    <date year="n.d."/>
   </front>
 </reference>
 <reference anchor="TCPINC" target="https://datatracker.ietf.org/wg/tcpinc/charter/">
@@ -405,7 +396,7 @@ delivering a single service, or a blend of services.</t>
     <author fullname="tcpinc WG">
       <organization>IETF</organization>
     </author>
-    <date year="2014"/>
+    <date year="n.d."/>
   </front>
 </reference>
 
