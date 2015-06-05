@@ -174,8 +174,10 @@ mostly peer-to-peer.</t>
 
 </section>
 </section>
+
 <section anchor="hint" title="Providing hints to and from the network">
 <t>The following protocols aim to support a secure and privacy-aware dialogue between client, server and a network middlebox. These hints can allow information item exchange between the endpoints and the network, to assist queuing mechanisms and traffic pacing that accounts for network congestion and variable connection strength. These relate to the cooperative path to endpoint signalling as discussed at the IAB SEMI workshop <xref target="SEMI"/>, with the network following a more clearly-defined role in encrypted traffic delivery. </t>
+
 
 <section anchor="dscp" title="DiffServ Code Points (DSCP)">
 
@@ -260,9 +262,6 @@ applied at the network edge servers only.</t>
 
 <t>Differentiated prIorities and Status Code-points Using Stun Signalling <xref target="DISCUSS"/> describes a mechanism for information exchange between an application and the network, viable only for UDP. As such it can be considered in the same bracket as SPUD</t>
 </section>
-
- https://tools.ietf.org/html/draft-martinsen-tram-discuss-02
-
 
 </section><!-- end hints section-->
 <section anchor="ack" title="Acknowledgements">
