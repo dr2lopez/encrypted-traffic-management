@@ -9,7 +9,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc symrefs="yes"?>
 
-<rfc ipr="trust200902" docName="draft-smith-encrypted-traffic-management-00" category="info">
+<rfc ipr="trust200902" docName="draft-smith-encrypted-traffic-management-01" category="info">
 
   <front>
     <title abbrev="encrypted-traffic-management">Network management of encrypted traffic</title>
@@ -21,7 +21,7 @@
       </address>
     </author>
 
-    <date year="2015" month="May" day="08"/>
+    <date year="2015" month="June" day="05"/>
 
     <area>Security</area>
     
@@ -78,6 +78,13 @@ under encryption. ‘Encryption’ in this document typically refers to HTTP ove
 <t>Traffic flowing through a network may be queued for delivery. This is important at an access network where network conditions can change rapidly - such as a cellular radio access network. To account for congestion, the network will categorise content requests  according to the latency and bandwidth required to deliver that content type. These combinations run from high-latency, low bandwidth (Email), medium latency, medium bandwidth (Web pages), low latency high bandwidth (video streaming), and many others including voice calls, texts, WebRTC and VoIP. A well-managed network will triage between these content types and deliver from each queue in bursts, to ensure no user experiences a disrupted service.</t>
 
 </section>
+
+<section anchor="lb" title="Server load balancing">
+
+<t>Where network load balancers have been configured to route according to application-layer semantics, an encrypted payload is effectively invisible.This has resulted in practices of intercepting TLS in front of load balancers to regain that visibility, but at a cost to security and privacy.</t>
+
+</section>
+
 <section anchor="id" title="Intrusion detection">
 <t>Networks will monitor traffic stream behaviours to identify likely Denial of Service attacks. Tools exist at each network layer to detect and mitigate these, including application layer detection.</t>
 
@@ -138,13 +145,38 @@ domain rather than a URL path to be blocked.</t>
 </section>
 <section anchor="alpn" title="Application Layer Protocol Negotiation (ALPN)">
 
-<t>ALPN is a TLS extenion which may be used to indicate the application protocol within the TLS 
+<t>ALPN is a TLS extension which may be used to indicate the application protocol within the TLS 
 session. This is likely to be of more value to the network where it indicates a protocol dedicated 
 to a particular traffic type (such as video streaming) rather than a multi-use protocol.
 ALPN is used as part of HTTP/2 ‘h2’, but will not indicate the traffic types which may make up
 streams within an HTTP/2 multiplex.</t>
 
 </section>
+</section>
+<section anchor="inflow" title="Inferred flow information">
+
+<section anchor="heur" title="Heuristics">
+
+<t>Heuristics can be used to map given input data to particular conclusions via some heuristic
+reasoning. Examples of input data to this reasoning include IP destination address, TCP destination port, 
+server name from SNI, typical traffic pattern (e.g. occurrence of IP packets and TCP segments over time).
+The accuracy of heuristics depends on whether the observed traffic originates from a source 
+delivering a single service, or a blend of services. In
+many scenarios, this makes it possible to directly classify the traffic related to a specific
+server/service even when the traffic is fully encrypted.</t>
+
+<t>If the server/service is co-located on an infrastructure with other services that shares the
+same IP-address, the encrypted traffic cannot be directly classified. However, commercial
+traffic classifiers today typically apply heuristic methods, using traffic pattern matching 
+algorithms to be able to identify the traffic. As an example, classifier products are able to 
+identify popular VoIP services using heuristic methods although the traffic is encrypted and
+mostly peer-to-peer.</t>
+
+</section>
+</section>
+<section anchor="hint" title="Providing hints to and from the network">
+<t>The following protocols aim to support a secure and privacy-aware dialogue between client, server and a network middlebox. These hints can allow information item exchange between the endpoints and the network, to assist queuing mechanisms and traffic pacing that accounts for network congestion and variable connection strength. These relate to the cooperative path to endpoint signalling as discussed at the IAB SEMI workshop <xref target="SEMI"/>, with the network following a more clearly-defined role in encrypted traffic delivery. </t>
+
 <section anchor="dscp" title="DiffServ Code Points (DSCP)">
 
 <t>Data packets are flagged with a traffic class (class of service). Network
@@ -197,30 +229,7 @@ DiffServ only operates over Layer 3. DiffServ is potentially a less complex inte
 applied at the network edge servers only.</t>
 
 </section>
-</section>
-<section anchor="inflow" title="Inferred flow information">
 
-<section anchor="heur" title="Heuristics">
-
-<t>Heuristics can be used to map given input data to particular conclusions via some heuristic
-reasoning. Examples of input data to this reasoning include IP destination address, TCP destination port, 
-server name from SNI, typical traffic pattern (e.g. occurrence of IP packets and TCP segments over time).
-The accuracy of heuristics depends on whether the observed traffic originates from a source 
-delivering a single service, or a blend of services. In
-many scenarios, this makes it possible to directly classify the traffic related to a specific
-server/service even when the traffic is fully encrypted.</t>
-
-<t>If the server/service is co-located on an infrastructure with other services that shares the
-same IP-address, the encrypted traffic cannot be directly classified. However, commercial
-traffic classifiers today typically apply heuristic methods, using traffic pattern matching 
-algorithms to be able to identify the traffic. As an example, classifier products are able to 
-identify popular VoIP services using heuristic methods although the traffic is encrypted and
-mostly peer-to-peer.</t>
-
-</section>
-</section>
-<section anchor="hint" title="Providing hints to and from the network">
-<t>The following draft protocols aim to support a secure and privacy-aware dialogue between client, server and a network middlebox. This follows the cooperative path to endpoint signalling as discussed at the IAB SEMI workshop <xref target="SEMI"/>, with the network following a more clearly-defined role in encrypted traffic delivery. These hints can allow information item exchange between the endpoints and the network, to assist queuing mechanisms and traffic pacing that accounts for network congestion and variable connection strength.</t>
 
 <section anchor="spud" title="Substrate Protocol for User Datagrams (SPUD)">
 
@@ -232,10 +241,33 @@ mostly peer-to-peer.</t>
 <t>Mobile Throughput Guidance In-band Signalling <xref target="MTG"/> allows the network to inform the server endpoint as to what bandwidth the TCP connection can reasonably expect. This allows the server to adapt their throughput pacing based on dynamic network conditions, which can assist mechanisms such as Adaptive Bitrate Streaming and TCP congestion control.</t>
 
 </section>
+
+<section anchor="pcp" title="Port Control Protocol Flowdata options">
+
+<t>PCP Flowdata options <xref target="PCPFD"/> defines a mechanism for a host to signal flow
+   characteristics to the network, and the network to signal its ability
+   to accommodate that flow back to the host. This allows certain network flows can to    receive service that is differentiated from other network flows, and may be used to establish flow priority before connection establishment. PCP Flowdata operates at IPv4 /IPv6 level.</t>
+
 </section>
+
+<section anchor="ip6" title="IPv6 Flow label">
+
+<t>IPv6 includes a flow label header field. <xref target="RFC6438"/> details how this may be used to identify flows for load balancing and multipath routing, which may be of particular use for application-layer encrypted traffic. The flow label field is part of  the main header, which means it is not subject to the disadvantages of extension headers (namely their risk of being dropped by intermediary routers). The flow label may also be exposed as part of the outer IP packet in an IP tunnel, thus providing network flow information without compromising the payload.</t>
+
+</section>
+
+<section anchor="discuss" title="DISCUSS">
+
+<t>Differentiated prIorities and Status Code-points Using Stun Signalling <xref target="DISCUSS"/> describes a mechanism for information exchange between an application and the network, viable only for UDP. As such it can be considered in the same bracket as SPUD</t>
+</section>
+
+ https://tools.ietf.org/html/draft-martinsen-tram-discuss-02
+
+
+</section><!-- end hints section-->
 <section anchor="ack" title="Acknowledgements">
 
-<t>The editor would like to thank the GSMA Web Working Group for their contributions, in particular to the technical solutions and network management functions.</t>
+<t>The editor would like to thank the GSMA Web Working Group for their contributions, in particular to the technical solutions and network management functions, as well as contributions via the SAAG mailing list (Panos Kampanakis, Brian Carpenter) </t>
 
 </section>
 <section anchor="iana" title="IANA Considerations">
@@ -329,6 +361,25 @@ mostly peer-to-peer.</t>
 <format type='TXT' octets='262123' target='http://www.rfc-editor.org/rfc/rfc4301.txt' />
 </reference>
 
+<reference anchor='RFC6438'>
+
+<front>
+<title>Using the IPv6 Flow Label for Equal Cost Multipath Routing and Link Aggregation in Tunnels</title>
+<author initials='B.' surname='Carpenter' fullname='B. Carpenter'>
+<organization/></author>
+<author initials='S.' surname='Amante' fullname='S. Amante'>
+<organization /></author>
+<date year='2011' />
+<abstract>
+<t>The IPv6 flow label has certain restrictions on its use.  This
+   document describes how those restrictions apply when using the flow
+   label for load balancing by equal cost multipath routing and for link
+   aggregation, particularly for IP-in-IPv6 tunneled traffic.</t></abstract></front>
+
+<seriesInfo name='RFC' value='6438' />
+<format type='HTML' target='https://tools.ietf.org/html/rfc6438' />
+</reference>
+
 
 
 
@@ -397,6 +448,24 @@ mostly peer-to-peer.</t>
       <organization>IETF</organization>
     </author>
     <date year="n.d."/>
+  </front>
+</reference>
+<reference anchor="PCPFD" target="https://tools.ietf.org/html/draft-wing-pcp-flowdata-00">
+  <front>
+    <title>PCP Flowdata option</title>
+    <author fullname="D. Wing">
+      <organization>Cisco</organization>
+    </author>
+    <date year="2013"/>
+  </front>
+</reference>
+<reference anchor="DISCUSS" target="https://tools.ietf.org/html/draft-martinsen-tram-discuss-02">
+  <front>
+    <title>Differentiated prIorities and Status Code-points Using Stun Signalling</title>
+    <author fullname="P. Martinsen">
+      <organization>Cisco</organization>
+    </author>
+    <date year="2015"/>
   </front>
 </reference>
 
