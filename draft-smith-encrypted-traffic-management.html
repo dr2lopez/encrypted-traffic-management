@@ -1,0 +1,699 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Network management of encrypted traffic</title>
+
+  <style type="text/css" title="Xml2Rfc (sans serif)">
+  /*<![CDATA[*/
+	  a {
+	  text-decoration: none;
+	  }
+      /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+      a.info {
+          /* This is the key. */
+          position: relative;
+          z-index: 24;
+          text-decoration: none;
+      }
+      a.info:hover {
+          z-index: 25;
+          color: #FFF; background-color: #900;
+      }
+      a.info span { display: none; }
+      a.info:hover span.info {
+          /* The span will display just on :hover state. */
+          display: block;
+          position: absolute;
+          font-size: smaller;
+          top: 2em; left: -5em; width: 15em;
+          padding: 2px; border: 1px solid #333;
+          color: #900; background-color: #EEE;
+          text-align: left;
+      }
+	  a.smpl {
+	  color: black;
+	  }
+	  a:hover {
+	  text-decoration: underline;
+	  }
+	  a:active {
+	  text-decoration: underline;
+	  }
+	  address {
+	  margin-top: 1em;
+	  margin-left: 2em;
+	  font-style: normal;
+	  }
+	  body {
+	  color: black;
+	  font-family: verdana, helvetica, arial, sans-serif;
+	  font-size: 10pt;
+	  max-width: 55em;
+	  
+	  }
+	  cite {
+	  font-style: normal;
+	  }
+	  dd {
+	  margin-right: 2em;
+	  }
+	  dl {
+	  margin-left: 2em;
+	  }
+	
+	  ul.empty {
+	  list-style-type: none;
+	  }
+	  ul.empty li {
+	  margin-top: .5em;
+	  }
+	  dl p {
+	  margin-left: 0em;
+	  }
+	  dt {
+	  margin-top: .5em;
+	  }
+	  h1 {
+	  font-size: 14pt;
+	  line-height: 21pt;
+	  page-break-after: avoid;
+	  }
+	  h1.np {
+	  page-break-before: always;
+	  }
+	  h1 a {
+	  color: #333333;
+	  }
+	  h2 {
+	  font-size: 12pt;
+	  line-height: 15pt;
+	  page-break-after: avoid;
+	  }
+	  h3, h4, h5, h6 {
+	  font-size: 10pt;
+	  page-break-after: avoid;
+	  }
+	  h2 a, h3 a, h4 a, h5 a, h6 a {
+	  color: black;
+	  }
+	  img {
+	  margin-left: 3em;
+	  }
+	  li {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol p {
+	  margin-left: 0em;
+	  }
+	  p {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  pre {
+	  margin-left: 3em;
+	  background-color: lightyellow;
+	  padding: .25em;
+	  }
+	  pre.text2 {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f0f0f0;
+	  width: 69em;
+	  }
+	  pre.inline {
+	  background-color: white;
+	  padding: 0em;
+	  }
+	  pre.text {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  width: 69em;
+	  }
+	  pre.drawing {
+	  border-style: solid;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  padding: 2em;
+	  }
+	  table {
+	  margin-left: 2em;
+	  }
+	  table.tt {
+	  vertical-align: top;
+	  }
+	  table.full {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.headers {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.tt td {
+	  vertical-align: top;
+	  }
+	  table.full td {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.tt th {
+	  vertical-align: top;
+	  }
+	  table.full th {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.headers th {
+	  border-style: none none inset none;
+	  border-width: 1px;
+	  }
+	  table.left {
+	  margin-right: auto;
+	  }
+	  table.right {
+	  margin-left: auto;
+	  }
+	  table.center {
+	  margin-left: auto;
+	  margin-right: auto;
+	  }
+	  caption {
+	  caption-side: bottom;
+	  font-weight: bold;
+	  font-size: 9pt;
+	  margin-top: .5em;
+	  }
+	
+	  table.header {
+	  border-spacing: 1px;
+	  width: 95%;
+	  font-size: 10pt;
+	  color: white;
+	  }
+	  td.top {
+	  vertical-align: top;
+	  }
+	  td.topnowrap {
+	  vertical-align: top;
+	  white-space: nowrap; 
+	  }
+	  table.header td {
+	  background-color: gray;
+	  width: 50%;
+	  }
+	  table.header a {
+	  color: white;
+	  }
+	  td.reference {
+	  vertical-align: top;
+	  white-space: nowrap;
+	  padding-right: 1em;
+	  }
+	  thead {
+	  display:table-header-group;
+	  }
+	  ul.toc, ul.toc ul {
+	  list-style: none;
+	  margin-left: 1.5em;
+	  margin-right: 0em;
+	  padding-left: 0em;
+	  }
+	  ul.toc li {
+	  line-height: 150%;
+	  font-weight: bold;
+	  font-size: 10pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  ul.toc li li {
+	  line-height: normal;
+	  font-weight: normal;
+	  font-size: 9pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  li.excluded {
+	  font-size: 0pt;
+	  }
+	  ul p {
+	  margin-left: 0em;
+	  }
+	
+	  .comment {
+	  background-color: yellow;
+	  }
+	  .center {
+	  text-align: center;
+	  }
+	  .error {
+	  color: red;
+	  font-style: italic;
+	  font-weight: bold;
+	  }
+	  .figure {
+	  font-weight: bold;
+	  text-align: center;
+	  font-size: 9pt;
+	  }
+	  .filename {
+	  color: #333333;
+	  font-weight: bold;
+	  font-size: 12pt;
+	  line-height: 21pt;
+	  text-align: center;
+	  }
+	  .fn {
+	  font-weight: bold;
+	  }
+	  .hidden {
+	  display: none;
+	  }
+	  .left {
+	  text-align: left;
+	  }
+	  .right {
+	  text-align: right;
+	  }
+	  .title {
+	  color: #990000;
+	  font-size: 18pt;
+	  line-height: 18pt;
+	  font-weight: bold;
+	  text-align: center;
+	  margin-top: 36pt;
+	  }
+	  .vcardline {
+	  display: block;
+	  }
+	  .warning {
+	  font-size: 14pt;
+	  background-color: yellow;
+	  }
+	
+	
+	  @media print {
+	  .noprint {
+		display: none;
+	  }
+	
+	  a {
+		color: black;
+		text-decoration: none;
+	  }
+	
+	  table.header {
+		width: 90%;
+	  }
+	
+	  td.header {
+		width: 50%;
+		color: black;
+		background-color: white;
+		vertical-align: top;
+		font-size: 12pt;
+	  }
+	
+	  ul.toc a::after {
+		content: leader('.') target-counter(attr(href), page);
+	  }
+	
+	  ul.ind li li a {
+		content: target-counter(attr(href), page);
+	  }
+	
+	  .print2col {
+		column-count: 2;
+		-moz-column-count: 2;
+		column-fill: auto;
+	  }
+	  }
+	
+	  @page {
+	  @top-left {
+		   content: "Internet-Draft"; 
+	  } 
+	  @top-right {
+		   content: "December 2010"; 
+	  } 
+	  @top-center {
+		   content: "Abbreviated Title";
+	  } 
+	  @bottom-left {
+		   content: "Doe"; 
+	  } 
+	  @bottom-center {
+		   content: "Expires June 2011"; 
+	  } 
+	  @bottom-right {
+		   content: "[Page " counter(page) "]"; 
+	  } 
+	  }
+	
+	  @page:first { 
+		@top-left {
+		  content: normal;
+		}
+		@top-right {
+		  content: normal;
+		}
+		@top-center {
+		  content: normal;
+		}
+	  }
+  /*]]>*/
+  </style>
+
+  <link href="#rfc.toc" rel="Contents"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Document structure"/>
+<link href="#rfc.section.1.2" rel="Chapter" title="1.2 Security protocols"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Network management functions"/>
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Queuing"/>
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Server load balancing"/>
+<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Intrusion detection"/>
+<link href="#rfc.section.2.4" rel="Chapter" title="2.4 Policy enforcement"/>
+<link href="#rfc.section.2.5" rel="Chapter" title="2.5 SPAM and malware filtering"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Flow information visible to a network"/>
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 IP 5-tuple"/>
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 TLS Server Name Indication"/>
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Application Layer Protocol Negotiation (ALPN)"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Inferred flow information"/>
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Heuristics"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 Providing hints to and from the network"/>
+<link href="#rfc.section.5.1" rel="Chapter" title="5.1 DiffServ Code Points (DSCP)"/>
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Explicit Congestion Notification"/>
+<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Multi Protocol Label Switching"/>
+<link href="#rfc.section.5.4" rel="Chapter" title="5.4 Substrate Protocol for User Datagrams (SPUD)"/>
+<link href="#rfc.section.5.5" rel="Chapter" title="5.5 Mobile throughput Guidance"/>
+<link href="#rfc.section.5.6" rel="Chapter" title="5.6 Port Control Protocol Flowdata options"/>
+<link href="#rfc.section.5.7" rel="Chapter" title="5.7 IPv6 Flow label"/>
+<link href="#rfc.section.5.8" rel="Chapter" title="5.8 DISCUSS"/>
+<link href="#rfc.section.6" rel="Chapter" title="6 Acknowledgements"/>
+<link href="#rfc.section.7" rel="Chapter" title="7 IANA Considerations"/>
+<link href="#rfc.section.8" rel="Chapter" title="8 Security Considerations"/>
+<link href="#rfc.references" rel="Chapter" title="9 References"/>
+<link href="#rfc.references.1" rel="Chapter" title="9.1 Normative References"/>
+<link href="#rfc.references.2" rel="Chapter" title="9.2 Informative References"/>
+<link href="#rfc.authors" rel="Chapter"/>
+
+
+  <meta name="generator" content="xml2rfc version 2.4.11 - http://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Smith, K." />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-smith-encrypted-traffic-management-01" />
+  <meta name="dct.issued" scheme="ISO8601" content="2015-6-05" />
+  <meta name="dct.abstract" content="Encrypted Internet traffic may pose traffic management challenges to network operators. This document recommends approaches to help manage encrypted traffic, without breaching user privacy or security." />
+  <meta name="description" content="Encrypted Internet traffic may pose traffic management challenges to network operators. This document recommends approaches to help manage encrypted traffic, without breaching user privacy or security." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+  <td class="left">Network Working Group</td>
+  <td class="right">K. Smith</td>
+</tr>
+<tr>
+  <td class="left">Internet-Draft</td>
+  <td class="right">Vodafone Group</td>
+</tr>
+<tr>
+  <td class="left">Intended status: Informational</td>
+  <td class="right">June 05, 2015</td>
+</tr>
+<tr>
+  <td class="left">Expires: December 7, 2015</td>
+  <td class="right"></td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Network management of encrypted traffic<br />
+  <span class="filename">draft-smith-encrypted-traffic-management-01</span></p>
+  
+  <h1 id="rfc.abstract">
+  <a href="#rfc.abstract">Abstract</a>
+</h1>
+<p>Encrypted Internet traffic may pose traffic management challenges to network operators. This document recommends approaches to help manage encrypted traffic, without breaching user privacy or security.</p>
+<h1 id="rfc.status">
+  <a href="#rfc.status">Status of This Memo</a>
+</h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on December 7, 2015.</p>
+<h1 id="rfc.copyrightnotice">
+  <a href="#rfc.copyrightnotice">Copyright Notice</a>
+</h1>
+<p>Copyright (c) 2015 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
+<ul><li>1.1.   <a href="#rfc.section.1.1">Document structure</a></li>
+<li>1.2.   <a href="#rfc.section.1.2">Security protocols</a></li>
+</ul><li>2.   <a href="#rfc.section.2">Network management functions</a></li>
+<ul><li>2.1.   <a href="#rfc.section.2.1">Queuing</a></li>
+<li>2.2.   <a href="#rfc.section.2.2">Server load balancing</a></li>
+<li>2.3.   <a href="#rfc.section.2.3">Intrusion detection</a></li>
+<li>2.4.   <a href="#rfc.section.2.4">Policy enforcement</a></li>
+<li>2.5.   <a href="#rfc.section.2.5">SPAM and malware filtering</a></li>
+</ul><li>3.   <a href="#rfc.section.3">Flow information visible to a network</a></li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">IP 5-tuple</a></li>
+<li>3.2.   <a href="#rfc.section.3.2">TLS Server Name Indication</a></li>
+<li>3.3.   <a href="#rfc.section.3.3">Application Layer Protocol Negotiation (ALPN)</a></li>
+</ul><li>4.   <a href="#rfc.section.4">Inferred flow information</a></li>
+<ul><li>4.1.   <a href="#rfc.section.4.1">Heuristics</a></li>
+</ul><li>5.   <a href="#rfc.section.5">Providing hints to and from the network</a></li>
+<ul><li>5.1.   <a href="#rfc.section.5.1">DiffServ Code Points (DSCP)</a></li>
+<li>5.2.   <a href="#rfc.section.5.2">Explicit Congestion Notification</a></li>
+<li>5.3.   <a href="#rfc.section.5.3">Multi Protocol Label Switching</a></li>
+<li>5.4.   <a href="#rfc.section.5.4">Substrate Protocol for User Datagrams (SPUD)</a></li>
+<li>5.5.   <a href="#rfc.section.5.5">Mobile throughput Guidance</a></li>
+<li>5.6.   <a href="#rfc.section.5.6">Port Control Protocol Flowdata options</a></li>
+<li>5.7.   <a href="#rfc.section.5.7">IPv6 Flow label</a></li>
+<li>5.8.   <a href="#rfc.section.5.8">DISCUSS</a></li>
+</ul><li>6.   <a href="#rfc.section.6">Acknowledgements</a></li>
+<li>7.   <a href="#rfc.section.7">IANA Considerations</a></li>
+<li>8.   <a href="#rfc.section.8">Security Considerations</a></li>
+<li>9.   <a href="#rfc.references">References</a></li>
+<ul><li>9.1.   <a href="#rfc.references.1">Normative References</a></li>
+<li>9.2.   <a href="#rfc.references.2">Informative References</a></li>
+</ul><li><a href="#rfc.authors">Author's Address</a></li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#intro" id="intro">Introduction</a></h1>
+<p id="rfc.section.1.p.1">Networks utilise various management techniques to ensure efficient throughput, congestion management, anti-SPAM and security measures. Historically these functions have utilised visibility of the Internet application layer.</p>
+<p id="rfc.section.1.p.2">This visibility is rapidly diminishing - encrypted Internet traffic is expected to continue its upward trend, driven by increased privacy awareness, uptake by popular services, and advocacy from the <a href="#IAB">[IAB]</a>,  <a href="#RFC7258">[RFC7258]</a> and W3C <a href="#TAG">[TAG]</a> .</p>
+<p><a href="#IAB">[IAB]</a>, <a href="#RFC7258">[RFC7258]</a> and <a href="#mm-effect-encrypt">[mm-effect-encrypt]</a> recognise that network management functions are impacted by encryption, and that solutions are needed to persist them - as long as they do not threaten privacy. These solutions would ensure the benefits of encryption do not degrade network efficiency.</p>
+<p id="rfc.section.1.p.4">This document lists such solutions, and points to evolving IETF work addressing the problem.</p>
+<h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#struc" id="struc">Document structure</a></h1>
+<p id="rfc.section.1.1.p.1">This document describes the network management functions that are likely to be hindered by traffic encryption.</p>
+<p id="rfc.section.1.1.p.2">It then describes the technical details of existing options to fully or partially persist these functions under encryption. &#8216;Encryption&#8217; in this document typically refers to HTTP over TLS <a href="#RFC2818">[RFC2818]</a>; other forms of encryption are noted where applicable.</p>
+<p id="rfc.section.1.1.p.3">Finally, a summary is provided of ongoing IETF work which is investigating how middleboxes along the network path can improve encrypted traffic delivery - again without breaching user privacy or security.</p>
+<p id="rfc.section.1.1.p.4">The legal, political and commercial aspects of network management are recgnised but not covered in this technical document.</p>
+<h1 id="rfc.section.1.2"><a href="#rfc.section.1.2">1.2.</a> <a href="#encryp" id="encryp">Security protocols</a></h1>
+<p id="rfc.section.1.2.p.1">The following IETF protocols are considered in this document: TLS <a href="#RFC5246">[RFC5246]</a> , IPsec <a href="#RFC4301">[RFC4301]</a> and the ongoing transport layer security work of <a href="#TCPINC">[TCPINC]</a>.</p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#netman" id="netman">Network management functions</a></h1>
+<p id="rfc.section.2.p.1">Editor&#8217;s note: Part or all of this section may be removed where there is duplication with any updated version of <a href="#mm-effect-encrypt">[mm-effect-encrypt]</a></p>
+<h1 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1.</a> <a href="#qu" id="qu">Queuing</a></h1>
+<p id="rfc.section.2.1.p.1">Traffic flowing through a network may be queued for delivery. This is important at an access network where network conditions can change rapidly - such as a cellular radio access network. To account for congestion, the network will categorise content requests  according to the latency and bandwidth required to deliver that content type. These combinations run from high-latency, low bandwidth (Email), medium latency, medium bandwidth (Web pages), low latency high bandwidth (video streaming), and many others including voice calls, texts, WebRTC and VoIP. A well-managed network will triage between these content types and deliver from each queue in bursts, to ensure no user experiences a disrupted service.</p>
+<h1 id="rfc.section.2.2"><a href="#rfc.section.2.2">2.2.</a> <a href="#lb" id="lb">Server load balancing</a></h1>
+<p id="rfc.section.2.2.p.1">Where network load balancers have been configured to route according to application-layer semantics, an encrypted payload is effectively invisible.This has resulted in practices of intercepting TLS in front of load balancers to regain that visibility, but at a cost to security and privacy.</p>
+<h1 id="rfc.section.2.3"><a href="#rfc.section.2.3">2.3.</a> <a href="#id" id="id">Intrusion detection</a></h1>
+<p id="rfc.section.2.3.p.1">Networks will monitor traffic stream behaviours to identify likely Denial of Service attacks. Tools exist at each network layer to detect and mitigate these, including application layer detection.</p>
+<h1 id="rfc.section.2.4"><a href="#rfc.section.2.4">2.4.</a> <a href="#pe" id="pe">Policy enforcement</a></h1>
+<p id="rfc.section.2.4.p.1">Approved access to a network is a prerequisite to requests for Internet traffic - hence network access, including any authentication and authorisation, is not impacted by traffic encryption.</p>
+<p id="rfc.section.2.4.p.2">Cellular networks often sell tariffs that allow free-data access to certain sites, known as &#8216;zero rating&#8217;. A session to visit such a site incurs no additional cost or data usage to the user. Such &#8216;zero rating</p>
+<p id="rfc.section.2.4.p.3">Note: this section deliberately does not go into detail on the ramifications of encryption as regards government regulation. These regulations include &#8216;Lawful Intercept&#8217;, adherence to Codes of Practice on content filtering, application of court order filters. However it is clear that these functions are impacted by encryption, typically by allowing a less granular means of implementation. The enforcement of any Net Neutrality regulations is unlikely to be affected by content being encrypted.</p>
+<h1 id="rfc.section.2.5"><a href="#rfc.section.2.5">2.5.</a> <a href="#spam" id="spam">SPAM and malware filtering</a></h1>
+<p id="rfc.section.2.5.p.1">This has typically required Deep Packet Inspection to filter various keywords, fraudulent headers and virus attachments.</p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#flow" id="flow">Flow information visible to a network</a></h1>
+<h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#ip5" id="ip5">IP 5-tuple</a></h1>
+<p id="rfc.section.3.1.p.1">This indicates source and destination IP addresses/ports and the transport protocol. This information is available during TLS, TCP-layer encryption (except ports), and IP-layer encryption (IPSec); although it may be obscured in Tunnel mode IPSec.</p>
+<p id="rfc.section.3.1.p.2">This allows network management at a coarse IP-source level, which makes it of limited value where the origin server supports a blend of service types.</p>
+<p id="rfc.section.3.1.p.3">Obscured from network by: IPSec Tunnel Mode</p>
+<h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#sni" id="sni">TLS Server Name Indication</a></h1>
+<p id="rfc.section.3.2.p.1">When initiating the TLS handshake, the Client may provide an extension field (server_name) which indicates the server to which it is attempting a secure connection.  TLS SNI was standardized in 2003 to enable servers to present the &#8220;correct TLS certificate&#8221; to clients in a deployment of multiple virtual servers hosted by the same server infrastructure and IP-address. Although this is an optional extension, it is today supported by all modern browsers, web servers and developer libraries. Notable exceptions are Android 2.2 and Internet Explorer 6 on Windows XP.  It should be noted that HTTP/2 introduces the Alt-SVC method for upgrading the connection from HTTP/1 to either unencrypted or encrypted HTTP/2. If the initial HTTP/1 request is unencrypted, the destination alternate service name can be identified before the communication is potentially upgraded to encrypted HTTP/2 transport.  HTTP/2 implementations MUST support the Server Name Indication (SNI) extension.</p>
+<p id="rfc.section.3.2.p.2">Limitation: This information is only visible if the client is populating the Server Name Indication extension. This need not be done, but may be done as per TLS standard.  Therefore, even if existing network filters look out for seeing a Server Name Indication extension, they may not find one. The per-domain nature of SNI may not reveal the specific service or media type being accessed, especially where the domain is of a provider offering a range of email, video, Web pages etc. For example, certain blog or social network feeds may be deemed &#8216;adult content&#8217;, but the Server Name Indication will only indicate the server domain rather than a URL path to be blocked.</p>
+<p id="rfc.section.3.2.p.3">Obscured from network by: not providing the SNI, IPSec</p>
+<h1 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3.</a> <a href="#alpn" id="alpn">Application Layer Protocol Negotiation (ALPN)</a></h1>
+<p id="rfc.section.3.3.p.1">ALPN is a TLS extension which may be used to indicate the application protocol within the TLS session. This is likely to be of more value to the network where it indicates a protocol dedicated to a particular traffic type (such as video streaming) rather than a multi-use protocol.  ALPN is used as part of HTTP/2 &#8216;h2&#8217;, but will not indicate the traffic types which may make up streams within an HTTP/2 multiplex.</p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#inflow" id="inflow">Inferred flow information</a></h1>
+<h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#heur" id="heur">Heuristics</a></h1>
+<p id="rfc.section.4.1.p.1">Heuristics can be used to map given input data to particular conclusions via some heuristic reasoning. Examples of input data to this reasoning include IP destination address, TCP destination port, server name from SNI, typical traffic pattern (e.g. occurrence of IP packets and TCP segments over time).  The accuracy of heuristics depends on whether the observed traffic originates from a source delivering a single service, or a blend of services. In many scenarios, this makes it possible to directly classify the traffic related to a specific server/service even when the traffic is fully encrypted.</p>
+<p id="rfc.section.4.1.p.2">If the server/service is co-located on an infrastructure with other services that shares the same IP-address, the encrypted traffic cannot be directly classified. However, commercial traffic classifiers today typically apply heuristic methods, using traffic pattern matching algorithms to be able to identify the traffic. As an example, classifier products are able to identify popular VoIP services using heuristic methods although the traffic is encrypted and mostly peer-to-peer.</p>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#hint" id="hint">Providing hints to and from the network</a></h1>
+<p id="rfc.section.5.p.1">The following protocols aim to support a secure and privacy-aware dialogue between client, server and a network middlebox. These hints can allow information item exchange between the endpoints and the network, to assist queuing mechanisms and traffic pacing that accounts for network congestion and variable connection strength. These relate to the cooperative path to endpoint signalling as discussed at the IAB SEMI workshop <a href="#SEMI">[SEMI]</a>, with the network following a more clearly-defined role in encrypted traffic delivery. </p>
+<h1 id="rfc.section.5.1"><a href="#rfc.section.5.1">5.1.</a> <a href="#dscp" id="dscp">DiffServ Code Points (DSCP)</a></h1>
+<p id="rfc.section.5.1.p.1">Data packets are flagged with a traffic class (class of service). Network operators may honour a DiffServ classification entering their network, or may choose to override it (since it is potentially open to abuse by a service provider that classifies all its content as high priority). The purpose is to help manage traffic and congestion in the network.</p>
+<p id="rfc.section.5.1.p.2">Limitations:  This requires the content provider to flag data packets. This is extra work for the provider, and it has potential for abuse if a content provider simply flags all packets with high priorities. The network would need to know which flags to trust and which to override.  The use of DiffServ within the operator network is beneficial where the operator determines the class of service itself; but where content is encrypted then heuristics would be needed to predict the traffic type entering the network.  HTTP/2 allows several streams to be multiplexed over a single TCP connection. This means that if a provider decides to send Web pages, videos, chat etc. as individual streams over the same connection, then DiffServ would be useless as it would apply to the TCP/IP connection as a whole. However it may be more efficient for such Web providers to serve each content type from separate, dedicated servers &#8211; this will become clearer as HTTP/2 deployments are tuned for optimal delivery.</p>
+<h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#ecs" id="ecs">Explicit Congestion Notification</a></h1>
+<p id="rfc.section.5.2.p.1">Explicit Congestion Notification (ECN) routers can exchange congestion notification headers to ECN compliant endpoints. This is in preference to inferring congestion from dropped packets (e.g. in TCP). The purpose is to help manage traffic and congestion in the network.</p>
+<p id="rfc.section.5.2.p.2">This solution is required to be implemented at network and service provider. The service provider will utilise the ECN to reduce throughput until it is notified that congestion has eased.</p>
+<p id="rfc.section.5.2.p.3">Limitation: As with DiffServ, operators may not trust an external entity to mark packets in a fair/consistent manner.</p>
+<h1 id="rfc.section.5.3"><a href="#rfc.section.5.3">5.3.</a> <a href="#mpls" id="mpls">Multi Protocol Label Switching</a></h1>
+<p id="rfc.section.5.3.p.1">Description: on entering an MPLS-compliant network, IP packets are flagged with a &#8217;Forward Equivalence Class&#8217; (FEC). This allows the network to make packet-forwarding decisions according to their latency requirements. MPLS routers within the network parse and act upon the FEC value. The FEC is set according to the source IP address and port.  The purpose is to help managing traffic and congestion in the network. This requires deployment of an MPLS &#8216;backbone&#8217; with label-aware switches/ routers.</p>
+<p id="rfc.section.5.3.p.2">Limitations: an up-to-date correspondence table between Websites and server IP address must be created. Then, the category(s) of traffic have to be consistently mapped to a set of MPLS labels ,which entails a significant effort to setup and maintain.</p>
+<p id="rfc.section.5.3.p.3">Note: MPLS can specify how OSI Layer 3 (IP layer) traffic can be routed over Layer 2 (Data Link); DiffServ only operates over Layer 3. DiffServ is potentially a less complex integration as it is applied at the network edge servers only.</p>
+<h1 id="rfc.section.5.4"><a href="#rfc.section.5.4">5.4.</a> <a href="#spud" id="spud">Substrate Protocol for User Datagrams (SPUD)</a></h1>
+<p id="rfc.section.5.4.p.1">SPUD <a href="#SPUD">[SPUD]</a> allows network devices on the path between endpoints to participate explicitly in a &#8216;tube&#8217; of grouped UDP packets. The network involvement is outside of the end-to-end context, to minimise any privacy or security breach. The initial prototype is based on UDP packets but will investigate the support of additional transport layers (such as TCP).</p>
+<h1 id="rfc.section.5.5"><a href="#rfc.section.5.5">5.5.</a> <a href="#mtg" id="mtg">Mobile throughput Guidance</a></h1>
+<p id="rfc.section.5.5.p.1">Mobile Throughput Guidance In-band Signalling <a href="#MTG">[MTG]</a> allows the network to inform the server endpoint as to what bandwidth the TCP connection can reasonably expect. This allows the server to adapt their throughput pacing based on dynamic network conditions, which can assist mechanisms such as Adaptive Bitrate Streaming and TCP congestion control.</p>
+<h1 id="rfc.section.5.6"><a href="#rfc.section.5.6">5.6.</a> <a href="#pcp" id="pcp">Port Control Protocol Flowdata options</a></h1>
+<p id="rfc.section.5.6.p.1">PCP Flowdata options <a href="#PCPFD">[PCPFD]</a> defines a mechanism for a host to signal flow characteristics to the network, and the network to signal its ability to accommodate that flow back to the host. This allows certain network flows can to    receive service that is differentiated from other network flows, and may be used to establish flow priority before connection establishment. PCP Flowdata operates at IPv4 /IPv6 level.</p>
+<h1 id="rfc.section.5.7"><a href="#rfc.section.5.7">5.7.</a> <a href="#ip6" id="ip6">IPv6 Flow label</a></h1>
+<p id="rfc.section.5.7.p.1">IPv6 includes a flow label header field. <a href="#RFC6438">[RFC6438]</a> details how this may be used to identify flows for load balancing and multipath routing, which may be of particular use for application-layer encrypted traffic. The flow label field is part of  the main header, which means it is not subject to the disadvantages of extension headers (namely their risk of being dropped by intermediary routers). The flow label may also be exposed as part of the outer IP packet in an IP tunnel, thus providing network flow information without compromising the payload.</p>
+<h1 id="rfc.section.5.8"><a href="#rfc.section.5.8">5.8.</a> <a href="#discuss" id="discuss">DISCUSS</a></h1>
+<p id="rfc.section.5.8.p.1">Differentiated prIorities and Status Code-points Using Stun Signalling <a href="#DISCUSS">[DISCUSS]</a> describes a mechanism for information exchange between an application and the network, viable only for UDP. As such it can be considered in the same bracket as SPUD</p>
+<h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#ack" id="ack">Acknowledgements</a></h1>
+<p id="rfc.section.6.p.1">The editor would like to thank the GSMA Web Working Group for their contributions, in particular to the technical solutions and network management functions, as well as contributions via the SAAG mailing list (Panos Kampanakis, Brian Carpenter) </p>
+<h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#iana" id="iana">IANA Considerations</a></h1>
+<p id="rfc.section.7.p.1">There are no IANA consideraions.</p>
+<h1 id="rfc.section.8"><a href="#rfc.section.8">8.</a> <a href="#sec" id="sec">Security Considerations</a></h1>
+<p id="rfc.section.8.p.1">The intention of this document is to consider how to persist network management of encrypted traffic, without breaching user privacy or end-to-end security. In particular this document does not recommend any approach that intercepts or modifies client-server Transport Layer Security.</p>
+<h1 id="rfc.references"><a href="#rfc.references">9.</a> References</h1>
+<h1 id="rfc.references.1"><a href="#rfc.references.1">9.1.</a> Normative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="RFC2818">[RFC2818]</b>
+      </td>
+      <td class="top"><a>Rescorla, E.</a>, "<a href="http://tools.ietf.org/html/rfc2818">HTTP Over TLS</a>", RFC 2818, May 2000.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC4301">[RFC4301]</b>
+      </td>
+      <td class="top"><a>Kent, S.</a> and <a>K. Seo</a>, "<a href="http://tools.ietf.org/html/rfc4301">Security Architecture for the Internet Protocol</a>", RFC 4301, December 2005.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC5246">[RFC5246]</b>
+      </td>
+      <td class="top"><a>Dierks, T.</a> and <a>E. Rescorla</a>, "<a href="http://tools.ietf.org/html/rfc5246">The Transport Layer Security (TLS) Protocol Version 1.2</a>", RFC 5246, August 2008.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC6438">[RFC6438]</b>
+      </td>
+      <td class="top"><a>Carpenter, B.</a> and <a>S. Amante</a>, "<a href="http://tools.ietf.org/html/rfc6438">Using the IPv6 Flow Label for Equal Cost Multipath Routing and Link Aggregation in Tunnels</a>", RFC 6438, 2011.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7258">[RFC7258]</b>
+      </td>
+      <td class="top"><a>Farrell, S.</a> and <a>H. Tschofenig</a>, "<a href="http://tools.ietf.org/html/rfc7258">Pervasive Monitoring Is an Attack</a>", BCP 188, RFC 7258, May 2014.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.references.2"><a href="#rfc.references.2">9.2.</a> Informative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="DISCUSS">[DISCUSS]</b>
+      </td>
+      <td class="top"><a>Cisco</a>, "<a href="https://tools.ietf.org/html/draft-martinsen-tram-discuss-02">Differentiated prIorities and Status Code-points Using Stun Signalling</a>", 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="IAB">[IAB]</b>
+      </td>
+      <td class="top"><a>IAB</a>, "<a href="https://www.iab.org/2014/11/14/iab-statement-on-internet-confidentiality/">IAB statement on Internet confidentiality</a>", n.d..</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="MTG">[MTG]</b>
+      </td>
+      <td class="top"><a>IETF</a>, "<a href="https://tools.ietf.org/html/draft-flinck-mobile-throughput-guidance-02">Mobile Throughput Guidance Inband Signaling Protocol</a>", n.d..</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="PCPFD">[PCPFD]</b>
+      </td>
+      <td class="top"><a>Cisco</a>, "<a href="https://tools.ietf.org/html/draft-wing-pcp-flowdata-00">PCP Flowdata option</a>", 2013.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="SEMI">[SEMI]</b>
+      </td>
+      <td class="top"><a>IAB</a>, "<a href="https://www.iab.org/activities/workshops/semi/">IAB workshop, 'Stack Evolution in a Middlebox Internet'</a>", n.d..</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="SPUD">[SPUD]</b>
+      </td>
+      <td class="top"><a>IETF</a>, "<a href="https://tools.ietf.org/html/draft-hildebrand-spud-prototype-03">Substrate Protocol for User Datagrams</a>", n.d..</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="TAG">[TAG]</b>
+      </td>
+      <td class="top"><a>W3C</a>, "<a href="https://w3ctag.github.io/web-https/">Securing the Web</a>", n.d..</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="TCPINC">[TCPINC]</b>
+      </td>
+      <td class="top"><a>IETF</a>, "<a href="https://datatracker.ietf.org/wg/tcpinc/charter/">TCP Increased Security</a>", n.d..</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="mm-effect-encrypt">[mm-effect-encrypt]</b>
+      </td>
+      <td class="top"><a>IETF</a>, "<a href="https://datatracker.ietf.org/doc/draft-mm-wg-effect-encrypt/">Effect of Ubiquitous Encryption</a>", n.d..</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.authors">
+  <a href="#rfc.authors">Author's Address</a>
+</h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Kevin Smith</span> 
+	  <span class="n hidden">
+		<span class="family-name">Smith</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Vodafone Group</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:kevin.smith@vodafone.com">kevin.smith@vodafone.com</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
