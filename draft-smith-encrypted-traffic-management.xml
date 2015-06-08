@@ -92,13 +92,13 @@ under encryption. ‘Encryption’ in this document typically refers to HTTP ove
 <section anchor="pe" title="Policy enforcement">
 <t>Approved access to a network is a prerequisite to requests for Internet traffic - hence network access, including any authentication and authorisation, is not impacted by traffic encryption.</t>
 
-<t>Cellular networks often sell tariffs that allow free-data access to certain sites, known as ‘zero rating’. A session to visit such a site incurs no additional cost or data usage to the user. Such ‘zero rating</t>
+<t>Cellular networks often sell tariffs that allow free-data access to certain sites, known as ‘zero rating’. A session to visit such a site incurs no additional cost or data usage to the user.</t>
 
-<t>Note: this section deliberately does not go into detail on the ramifications of encryption as regards government regulation. These regulations include ‘Lawful Intercept’, adherence to Codes of Practice on content filtering, application of court order filters. However it is clear that these functions are impacted by encryption, typically by allowing a less granular means of implementation. The enforcement of any Net Neutrality regulations is unlikely to be affected by content being encrypted.</t>
+<t>Note: this section deliberately does not go into detail on the ramifications of encryption as regards government regulation. These regulations include Lawful Intercept, adherence to Codes of Practice on content filtering, application of court order filters. However it is clear that these functions are impacted by encryption, typically by allowing a less granular means of implementation. The enforcement of any Net Neutrality regulations is unlikely to be affected by content being encrypted.</t>
 
 </section>
 <section anchor="spam" title="SPAM and malware filtering">
-<t>This has typically required Deep Packet Inspection to filter various keywords, fraudulent headers and virus attachments.</t>
+<t>This has typically required full access to application data to filter various keywords, fraudulent headers and virus attachments.</t>
 
 </section>
 </section>
@@ -112,8 +112,6 @@ obscured in Tunnel mode IPSec.</t>
 
 <t>This allows network management at a coarse IP-source level, which makes it of limited value where the
 origin server supports a blend of service types.</t>
-
-<t>Obscured from network by: IPSec Tunnel Mode</t>
 
 </section>
 <section anchor="sni" title="TLS Server Name Indication">
@@ -131,7 +129,7 @@ unencrypted, the destination alternate service name can be identified before the
 communication is potentially upgraded to encrypted HTTP/2 transport.
 HTTP/2 implementations MUST support the Server Name Indication (SNI) extension.</t>
 
-<t>Limitation: This information is only visible if the client is populating the Server Name
+<t>This information is only visible if the client is populating the Server Name
 Indication extension. This need not be done, but may be done as per TLS standard.
 Therefore, even if existing network filters look out for seeing a Server Name Indication
 extension, they may not find one. The per-domain nature of SNI may not reveal the specific
@@ -139,8 +137,6 @@ service or media type being accessed, especially where the domain is of a provid
 a range of email, video, Web pages etc. For example, certain blog or social network feeds may
 be deemed ‘adult content’, but the Server Name Indication will only indicate the server
 domain rather than a URL path to be blocked.</t>
-
-<t>Obscured from network by: not providing the SNI, IPSec</t>
 
 </section>
 <section anchor="alpn" title="Application Layer Protocol Negotiation (ALPN)">
@@ -159,7 +155,7 @@ streams within an HTTP/2 multiplex.</t>
 
 <t>Heuristics can be used to map given input data to particular conclusions via some heuristic
 reasoning. Examples of input data to this reasoning include IP destination address, TCP destination port, 
-server name from SNI, typical traffic pattern (e.g. occurrence of IP packets and TCP segments over time).
+server name from SNI, and typical traffic patterns (e.g. occurrence of IP packets and TCP segments over time).
 The accuracy of heuristics depends on whether the observed traffic originates from a source 
 delivering a single service, or a blend of services. In
 many scenarios, this makes it possible to directly classify the traffic related to a specific
@@ -176,7 +172,7 @@ mostly peer-to-peer.</t>
 </section>
 
 <section anchor="hint" title="Providing hints to and from the network">
-<t>The following protocols aim to support a secure and privacy-aware dialogue between client, server and a network middlebox. These hints can allow information item exchange between the endpoints and the network, to assist queuing mechanisms and traffic pacing that accounts for network congestion and variable connection strength. These relate to the cooperative path to endpoint signalling as discussed at the IAB SEMI workshop <xref target="SEMI"/>, with the network following a more clearly-defined role in encrypted traffic delivery. </t>
+<t>The following protocols aim to support a secure and privacy-aware dialogue between client, server and the network elements. These hints can allow information item exchange between the endpoints and the network, to assist queuing mechanisms and traffic pacing that accounts for network congestion and variable connection strength. These relate to the cooperative path to endpoint signalling as discussed at the IAB SEMI workshop <xref target="SEMI"/>, with the network following a more clearly-defined role in encrypted traffic delivery. </t>
 
 
 <section anchor="dscp" title="DiffServ Code Points (DSCP)">
@@ -187,7 +183,7 @@ override it (since it is potentially open to abuse by a service provider that cl
 content as high priority). The purpose is to help manage traffic and congestion in the
 network.</t>
 
-<t>Limitations:  This requires the content provider to flag data packets. This is extra work for
+<t>This requires the content provider to flag data packets. This is extra work for
 the provider, and it has potential for abuse if a content provider simply flags all packets with
 high priorities. The network would need to know which flags to trust and which to override.
 The use of DiffServ within the operator network is beneficial where the operator determines
@@ -211,19 +207,19 @@ the network.</t>
 service provider will utilise the ECN to reduce throughput until it is notified that congestion
 has eased.</t>
 
-<t>Limitation: As with DiffServ, operators may not trust an external entity to mark packets in a
+<t>As with DiffServ, operators may not trust an external entity to mark packets in a
 fair/consistent manner.</t>
 
 </section>
 <section anchor="mpls" title="Multi Protocol Label Switching">
 
-<t>Description: on entering an MPLS-compliant network, IP packets are flagged with a
+<t>On entering an MPLS-compliant network, IP packets are flagged with a
 ’Forward Equivalence Class’ (FEC). This allows the network to make packet-forwarding
 decisions according to their latency requirements. MPLS routers within the network parse
 and act upon the FEC value. The FEC is set according to the source IP address and port.
 The purpose is to help managing traffic and congestion in the network. This requires deployment of an MPLS ‘backbone’ with label-aware switches/ routers.</t>
 
-<t>Limitations: an up-to-date correspondence table between Websites and server IP address must be created. Then, the category(s) of traffic have to be consistently mapped to a set of 
+<t>An up-to-date correspondence table between Websites (or service sites in general) and server IP address must be created. Then, the category(s) of traffic have to be consistently mapped to a set of 
 MPLS labels ,which entails a significant effort to setup and maintain.</t>
 
 <t>Note: MPLS can specify how OSI Layer 3 (IP layer) traffic can be routed over Layer 2 (Data Link);
@@ -248,7 +244,7 @@ applied at the network edge servers only.</t>
 
 <t>PCP Flowdata options <xref target="PCPFD"/> defines a mechanism for a host to signal flow
    characteristics to the network, and the network to signal its ability
-   to accommodate that flow back to the host. This allows certain network flows can to    receive service that is differentiated from other network flows, and may be used to establish flow priority before connection establishment. PCP Flowdata operates at IPv4 /IPv6 level.</t>
+   to accommodate that flow back to the host. This allows certain network flows to receive service that is differentiated from other network flows, and may be used to establish flow priority before connection establishment. PCP Flowdata operates at IPv4/IPv6 level.</t>
 
 </section>
 
